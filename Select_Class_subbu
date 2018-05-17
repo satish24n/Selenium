@@ -1,0 +1,62 @@
+package com.test;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.Test;
+
+public class DropDown {
+	
+	@Test
+	public void dropDown(){
+		WebDriver driver = new ChromeDriver();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		
+		driver.get("https://learn.letskodeit.com/p/practice");
+		
+		WebElement dd = driver.findElement(By.id("carselect"));
+		
+		Select sel = new Select(dd);
+		
+		//To get all the drop-down options and storing it in a List
+		List<WebElement> optn = sel.getOptions();
+		
+		// if you want to print all the dropdown options
+		for(WebElement e: optn){
+			System.out.println(e.getText());
+		}		
+		
+		//If you want to select a particular option based on a text you enter
+		String myChoice = "honda";		
+		
+		for(WebElement e: optn){			
+			if(e.getText().equalsIgnoreCase(myChoice)){
+				e.click();
+			}
+		}
+		System.out.println("size: " + optn.size());
+		
+		System.out.println(optn.get(0).getText());
+		
+		System.out.println(dropDwonValue(driver, dd, 1));
+		
+		driver.quit();
+	}
+	
+	public String dropDwonValue(WebDriver driver, WebElement dropDown, int index ){
+		Select sel = new Select(dropDown);
+		List<WebElement> allOptions = sel.getOptions();
+		
+		//below line gets the data based upon the index we provide
+		String value = allOptions.get(index).getText();		
+		
+		return value;
+	}
+	
+
+}
